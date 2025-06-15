@@ -155,16 +155,16 @@ class _HomeHeaderState extends State<HomeHeader> {
               size: 24,
             ),
           ),
-          IconButton(
-            onPressed: () {
-              // Navigate to notifications
-            },
-            icon: Icon(
-              Icons.notifications_outlined,
-              color: Theme.of(context).primaryColor,
-              size: 28,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () {
+          //     // Navigate to notifications
+          //   },
+          //   icon: Icon(
+          //     Icons.notifications_outlined,
+          //     color: Theme.of(context).primaryColor,
+          //     size: 28,
+          //   ),
+          // ),
         ],
       ),
     );

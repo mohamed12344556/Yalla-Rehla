@@ -42,11 +42,10 @@ class FavoritesScreen extends StatelessWidget {
         ],
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed:
-              () => context.pushNamedAndRemoveUntil(
-                Routes.host,
-                predicate: (_) => false,
-              ),
+          onPressed: () => context.pushNamedAndRemoveUntil(
+            Routes.host,
+            predicate: (_) => false,
+          ),
         ),
       ),
       body: BlocBuilder<FavoritesCubit, FavoritesState>(
@@ -78,8 +77,8 @@ class FavoritesScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   ElevatedButton(
-                    onPressed:
-                        () => context.read<FavoritesCubit>().loadFavorites(),
+                    onPressed: () =>
+                        context.read<FavoritesCubit>().loadFavorites(),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
                       foregroundColor: Colors.white,
@@ -238,16 +237,15 @@ class FavoritesScreen extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder:
-                (context) => MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(value: sl<HomeCubit>()),
-                    BlocProvider.value(value: sl<FavoritesCubit>()),
-                  ],
-                  child: DestinationDetailsScreen(
-                    destinationId: destination.destinationId,
-                  ),
-                ),
+            builder: (context) => MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: sl<HomeCubit>()),
+                BlocProvider.value(value: sl<FavoritesCubit>()),
+              ],
+              child: DestinationDetailsScreen(
+                destinationId: destination.destinationId,
+              ),
+            ),
           ),
         );
       },

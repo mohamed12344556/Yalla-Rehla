@@ -41,12 +41,16 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.error_outline, size: 64, color: Colors.grey[400]),
+                  Icon(
+                    Icons.flight_takeoff_outlined,
+                    size: 64,
+                    color: Colors.grey[400],
+                  ),
                   const SizedBox(height: 16),
                   Text(
-                    'Something went wrong',
+                    'مفيش رحلات متاحة حالياً',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
                       color: Colors.grey[700],
                     ),
@@ -55,28 +59,52 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: Text(
-                      state.message,
-                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      'معلش، مفيش رحلات متاحة في الوقت الحالي\nجرب تاني بعد شوية أو تواصل معانا',
+                      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.read<HomeCubit>().loadDestinations();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF30B0C7),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
+                  const SizedBox(height: 32),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<HomeCubit>().loadDestinations();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF30B0C7),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text('جرب تاني'),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                      const SizedBox(width: 16),
+                      OutlinedButton(
+                        onPressed: () {
+                          // إضافة وظيفة التواصل أو الانتقال لصفحة أخرى
+                          // Navigator.pushNamed(context, '/contact');
+                        },
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: const Color(0xFF30B0C7),
+                          side: const BorderSide(color: Color(0xFF30B0C7)),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text('تواصل معانا'),
                       ),
-                    ),
-                    child: const Text('Try Again'),
+                    ],
                   ),
                 ],
               ),
@@ -216,8 +244,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   : 'Filtered results',
               style: TextStyle(
                 fontSize: 14,
-                color:
-                    state.isSearching ? Colors.blue[700] : Colors.orange[700],
+                color: state.isSearching
+                    ? Colors.blue[700]
+                    : Colors.orange[700],
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -227,8 +256,9 @@ class _HomeScreenState extends State<HomeScreen> {
               context.read<HomeCubit>().clearFiltersAndSearch();
             },
             style: TextButton.styleFrom(
-              foregroundColor:
-                  state.isSearching ? Colors.blue[600] : Colors.orange[600],
+              foregroundColor: state.isSearching
+                  ? Colors.blue[600]
+                  : Colors.orange[600],
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             ),
             child: const Text('Clear'),
