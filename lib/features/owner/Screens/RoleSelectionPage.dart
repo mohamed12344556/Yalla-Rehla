@@ -1,13 +1,45 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:yalla_rehla/core/utils/extensions.dart';
 
 import '../../../core/routes/routes.dart';
+import '../../../core/themes/app_theme.dart';
 import '../../../core/utils/auth_guard.dart';
 
-class RoleSelectionPage extends StatelessWidget {
+class RoleSelectionPage extends StatefulWidget {
   const RoleSelectionPage({super.key});
+
+  @override
+  State<RoleSelectionPage> createState() => _RoleSelectionPageState();
+}
+
+class _RoleSelectionPageState extends State<RoleSelectionPage> {
+  bool _isLoading = false;
+
+  Future<void> _selectRole(UserRole role, String route) async {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // تطبيق الثيم مع التأخير
+      await ThemeRoleManager.setTemporaryRole(role);
+
+      // تأخير إضافي لضمان تطبيق الثيم
+      await Future.delayed(const Duration(milliseconds: 200));
+
+      if (mounted) {
+        context.pushNamed(route);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,74 +61,27 @@ class RoleSelectionPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                CustomWideButton(
-                  label: "Admin",
-                  onTap: () async {
-                    try {
-                      // Save the selected role
-                      await AuthGuard.saveUserRole(UserRole.admin);
 
-                      // Navigate to login (using same login for all roles for now)
-                      if (context.mounted) {
-                        context.pushNamed(Routes.adminLogin);
-                      }
-                    } catch (e) {
-                      // Handle error
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error: ${e.toString()}')),
-                        );
-                      }
-                    }
-                  },
-                ),
-                const SizedBox(height: 16),
-                CustomWideButton(
-                  label: "Business",
-
-                  onTap: () async {
-                    try {
-                      // Save the selected role
-                      await AuthGuard.saveUserRole(UserRole.business);
-
-                      // Navigate to login (using same login for all roles for now)
-                      if (context.mounted) {
-                        context.pushNamed(Routes.businessLogin);
-                      }
-                    } catch (e) {
-                      // Handle error
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error: ${e.toString()}')),
-                        );
-                      }
-                    }
-                  },
-                ),
-                const SizedBox(height: 16),
-                CustomWideButton(
-                  label: "Traveler",
-                  onTap: () async {
-                    try {
-                      log('Role saved successfully 1');
-                      // Save the selected role
-                      await AuthGuard.saveUserRole(UserRole.traveler);
-                      // Navigate to login
-                      log('Role saved successfully 2');
-                      if (context.mounted) {
-                        log('Role saved successfully 3');
-                        context.pushNamed(Routes.travelerLogin);
-                      }
-                    } catch (e) {
-                      // Handle error
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error: ${e.toString()}')),
-                        );
-                      }
-                    }
-                  },
-                ),
+                if (_isLoading)
+                  const CircularProgressIndicator()
+                else ...[
+                  CustomWideButton(
+                    label: "Admin",
+                    onTap: () => _selectRole(UserRole.admin, Routes.adminLogin),
+                  ),
+                  const SizedBox(height: 16),
+                  CustomWideButton(
+                    label: "Business Owner",
+                    onTap: () =>
+                        _selectRole(UserRole.business, Routes.businessLogin),
+                  ),
+                  const SizedBox(height: 16),
+                  CustomWideButton(
+                    label: "Traveler",
+                    onTap: () =>
+                        _selectRole(UserRole.traveler, Routes.travelerLogin),
+                  ),
+                ],
               ],
             ),
           ),

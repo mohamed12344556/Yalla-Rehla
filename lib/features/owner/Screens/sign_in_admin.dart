@@ -1,10 +1,11 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:yalla_rehla/core/utils/auth_guard.dart';
 
 import '../pages/ForgotPasswordPage.dart';
 import 'welcom_page_admin.dart';
-
 
 class SignIn1 extends StatefulWidget {
   const SignIn1({super.key});
@@ -62,12 +63,10 @@ class _SignIn1State extends State<SignIn1> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJLYXJlZW0xMkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQ1NGMwOWYzLWVlYWUtNGY5OC1hYzRkLTUyNmJmODFiMzM3OCIsImp0aSI6IjAwM2Y2YzU5LWQwNmQtNGUwNi1hMzA0LTI3M2UxZjMyZDE1ZiIsIlVzZXJUeXBlIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTc0Nzc0OTU0MiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0Njk1MCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTU1NTUifQ.RKrGbA9ggOy8v78XtNqa4SBq8V3z9vlTDyOYmXpmOCQ'
+          'Authorization':
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJLYXJlZW0xMkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQ1NGMwOWYzLWVlYWUtNGY5OC1hYzRkLTUyNmJmODFiMzM3OCIsImp0aSI6IjAwM2Y2YzU5LWQwNmQtNGUwNi1hMzA0LTI3M2UxZjMyZDE1ZiIsIlVzZXJUeXBlIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTc0Nzc0OTU0MiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0Njk1MCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTU1NTUifQ.RKrGbA9ggOy8v78XtNqa4SBq8V3z9vlTDyOYmXpmOCQ',
         },
-        body: jsonEncode({
-          'Email': email,
-          'Password': password,
-        }),
+        body: jsonEncode({'Email': email, 'Password': password}),
       );
 
       setState(() {
@@ -77,8 +76,11 @@ class _SignIn1State extends State<SignIn1> {
       if (response.statusCode == 200) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => welcom_page_Adimn(email: email)),
+          MaterialPageRoute(
+            builder: (context) => welcom_page_Adimn(email: email),
+          ),
         );
+        await AuthGuard.saveUserRole(UserRole.admin);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login failed: ${response.body}')),
@@ -88,16 +90,16 @@ class _SignIn1State extends State<SignIn1> {
       setState(() {
         isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('An error occurred: $e')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:const Color.fromARGB(255, 207, 221, 192),
+      backgroundColor: const Color.fromARGB(255, 207, 221, 192),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -105,16 +107,6 @@ class _SignIn1State extends State<SignIn1> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black, size: 28),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
               const SizedBox(height: 20),
               Stack(
                 alignment: Alignment.center,
@@ -145,10 +137,7 @@ class _SignIn1State extends State<SignIn1> {
                         SizedBox(height: 5),
                         Text(
                           "Sign in to access your account",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black54,
-                          ),
+                          style: TextStyle(fontSize: 12, color: Colors.black54),
                         ),
                       ],
                     ),
@@ -184,7 +173,9 @@ class _SignIn1State extends State<SignIn1> {
                       Checkbox(value: false, onChanged: (value) {}),
                       const Text(
                         "Remember me",
-                        style: TextStyle(color: Color.fromARGB(255, 101, 130, 105)),
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 101, 130, 105),
+                        ),
                       ),
                     ],
                   ),
@@ -219,9 +210,7 @@ class _SignIn1State extends State<SignIn1> {
                   ),
                   onPressed: isButtonEnabled && !isLoading ? _login : null,
                   child: isLoading
-                      ? const CircularProgressIndicator(
-                          color: Colors.white,
-                        )
+                      ? const CircularProgressIndicator(color: Colors.white)
                       : const Text(
                           "Next",
                           style: TextStyle(fontSize: 18, color: Colors.white),

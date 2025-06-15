@@ -42,7 +42,11 @@ class AuthGuard {
     final isAuthenticated = await isLoggedIn();
     final savedRole = await getUserRole();
 
-    // If user is not authenticated, check if they have selected a role
+    log(
+      'Auth check - Authenticated: $isAuthenticated, Role: ${savedRole?.name}',
+    );
+
+    // If user is not authenticated
     if (!isAuthenticated) {
       if (savedRole == null) {
         // No role selected, go to role selection
@@ -56,11 +60,17 @@ class AuthGuard {
       }
     }
 
-    // User is authenticated, go to appropriate main screen
-    final route = _getMainRouteForRole(savedRole ?? UserRole.traveler);
-    log(
-      'User authenticated with role: ${savedRole?.name ?? 'traveler'}, Route: $route',
-    );
+    // User is authenticated, check if role exists
+    if (savedRole == null) {
+      // This shouldn't happen, but if it does, logout and go to role selection
+      log('User authenticated but no role found, logging out');
+      await logout();
+      return Routes.roleSelection;
+    }
+
+    // User is authenticated with role, go to appropriate main screen
+    final route = _getMainRouteForRole(savedRole);
+    log('User authenticated with role: ${savedRole.name}, Route: $route');
     return route;
   }
 
@@ -77,7 +87,6 @@ class AuthGuard {
   }
 
   // Get main route based on role
-
   static String _getMainRouteForRole(UserRole role) {
     switch (role) {
       case UserRole.admin:
@@ -93,7 +102,7 @@ class AuthGuard {
   static Future<void> logout() async {
     await SharedPrefHelper.clearAllData();
     await SharedPrefHelper.clearAllSecuredData();
-    log('User logged out');
+    log('User logged out - all data cleared');
   }
 
   // Check if this is first time user
@@ -113,5 +122,12 @@ class AuthGuard {
   static Future<void> clearUserRole() async {
     await SharedPrefHelper.removeData(SharedPrefKeys.userRole);
     log('User role cleared');
+  }
+
+  // Reset to role selection (useful when you want to force role selection)
+  static Future<void> resetToRoleSelection() async {
+    await clearUserRole();
+    await SharedPrefHelper.clearAllSecuredData(); // Clear token only
+    log('Reset to role selection - role and token cleared');
   }
 }

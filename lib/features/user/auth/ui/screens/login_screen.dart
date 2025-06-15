@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yalla_rehla/core/utils/auth_guard.dart';
 
 import '../../../../../core/api/api_constants.dart';
 import '../../../../../core/cache/shared_pref_helper.dart';
@@ -21,7 +22,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  void _login() {
+  void _login() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -30,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       email: context.read<LoginCubit>().loginEmailController.text.trim(),
       password: context.read<LoginCubit>().loginPasswordController.text.trim(),
     );
+    await AuthGuard.saveUserRole(UserRole.traveler);
   }
 
   @override
@@ -68,10 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const SizedBox(height: 80),
                     // Logo/Image
-                    Image.asset(
-                      'assets/images/login_image.png',
-                      height: 200,
-                    ),
+                    Image.asset('assets/images/login_image.png', height: 200),
                     const SizedBox(height: 30),
 
                     // Welcome Text

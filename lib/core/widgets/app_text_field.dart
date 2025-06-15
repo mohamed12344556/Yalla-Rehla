@@ -125,18 +125,17 @@ class AppTextField extends StatelessWidget {
         fillColor: textFieldFillColor,
         contentPadding: defaultPadding,
         prefixIcon: prefixIcon,
-        suffixIcon:
-            isPassword
-                ? IconButton(
-                  icon: Icon(
-                    passwordVisible ? Icons.visibility_off : Icons.visibility,
-                    color: Colors.grey[400],
-                    size: iconSize,
-                  ),
-                  splashRadius: iconSize * 0.9,
-                  onPressed: onTogglePasswordVisibility,
-                )
-                : suffixIcon,
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  passwordVisible ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.grey[400],
+                  size: iconSize,
+                ),
+                splashRadius: iconSize * 0.9,
+                onPressed: onTogglePasswordVisibility,
+              )
+            : suffixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius),
           borderSide:

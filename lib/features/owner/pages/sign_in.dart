@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:yalla_rehla/core/utils/auth_guard.dart';
 
 import 'ForgotPasswordPage.dart';
 import 'welcom_page.dart';
@@ -76,6 +77,7 @@ class _SignInState extends State<SignIn> {
           context,
           MaterialPageRoute(builder: (context) => welcom_page(email: email)),
         );
+        await AuthGuard.saveUserRole(UserRole.business);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login failed: ${response.body}')),
