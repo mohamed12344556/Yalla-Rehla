@@ -12,9 +12,9 @@ import 'generated/l10n.dart';
 
 final sl = GetIt.instance;
 
-class YallaRehla extends StatelessWidget {
+class YallaRehlaApp extends StatelessWidget {
   final String initialRoute;
-  const YallaRehla({super.key, required this.initialRoute});
+  const YallaRehlaApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {

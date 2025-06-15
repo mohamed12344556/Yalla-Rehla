@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../travel_app.dart';
+import '../../../../../yalla_rehla_app.dart';
 import '../../../booking/ui/logic/bookings_cubit.dart';
 import '../../../booking/ui/screens/my_bookings_screen.dart';
 import '../../../chat/ui/screens/chat_bot_screen.dart';

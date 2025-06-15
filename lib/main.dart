@@ -11,7 +11,7 @@ import 'core/routes/routes.dart';
 import 'core/utils/auth_guard.dart';
 import 'core/utils/bloc_setup.dart';
 import 'features/user/chat/services/chat_bot_service.dart';
-import 'travel_app.dart';
+import 'yalla_rehla_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,7 +55,7 @@ void main() async {
   final initialRoute = await _getCorrectInitialRoute();
   log('Initial Route: $initialRoute');
 
-  runApp(YallaRehla(initialRoute: initialRoute));
+  runApp(YallaRehlaApp(initialRoute: initialRoute));
 }
 
 /// Determines the correct initial route based on user's state

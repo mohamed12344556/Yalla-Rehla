@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../travel_app.dart';
+import '../../../../../yalla_rehla_app.dart';
 import '../../../favorites/ui/logic/favorites_cubit.dart';
 import '../../data/model/destination_model.dart';
 import '../logic/home_cubit.dart';
