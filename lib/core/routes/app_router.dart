@@ -5,6 +5,7 @@ import 'package:yalla_rehla/features/owner/Screens/sign_in_admin.dart';
 
 import '../../features/owner/Screens/RoleSelectionPage.dart';
 import '../../features/owner/pages/EditInformationPage.dart';
+import '../../features/owner/pages/HomePage.dart';
 import '../../features/owner/pages/PersonalInformationPage.dart';
 import '../../features/owner/pages/onboardingScreen1.dart';
 import '../../features/owner/pages/onboardingScreen2.dart';
@@ -141,6 +142,9 @@ class AppRouter {
 
       case Routes.businessLogin:
         return MaterialPageRoute(builder: (_) => const SignIn());
+
+      case Routes.adminHome:
+        return MaterialPageRoute(builder: (_) => const HomePage());
 
       //! Owner Screens
       case Routes.information:

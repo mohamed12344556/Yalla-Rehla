@@ -16,9 +16,6 @@ import 'yalla_rehla_app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await DebugHelper.clearAllAppData(); // لمسح كل البيانات
-  // await DebugHelper.printAllStoredData(); // لطباعة البيانات الحالية
-
   // إضافة هذا السطر لتجاهل مشاكل SSL (للتطوير فقط)
   HttpOverrides.global = MyHttpOverrides();
 
@@ -64,7 +61,6 @@ void main() async {
 /// Determines the correct initial route based on user's state
 Future<String> _getCorrectInitialRoute() async {
   try {
-    
     // Check if it's the first time user opens the app
     final isFirstTime = await AuthGuard.isFirstTime();
 

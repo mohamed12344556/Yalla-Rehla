@@ -47,7 +47,7 @@ class AuthGuard {
     );
 
     // If user is not authenticated
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !(UserRole.admin == savedRole || UserRole.business == savedRole)) {
       if (savedRole == null) {
         // No role selected, go to role selection
         log('No role selected, going to role selection');
@@ -90,9 +90,9 @@ class AuthGuard {
   static String _getMainRouteForRole(UserRole role) {
     switch (role) {
       case UserRole.admin:
-        return Routes.host; // Use existing host screen for now
+        return Routes.adminHome; // Use existing host screen for now
       case UserRole.business:
-        return Routes.host; // Use existing host screen for now
+        return Routes.businessHome; // Use existing host screen for now
       case UserRole.traveler:
         return Routes.host;
     }

@@ -45,12 +45,14 @@ class Routes {
   static const String personalInformation = '/personal-info';
 
   //! Admin Routes
+  static const String adminHome = '/admin-home';
   static const String adminDashboard = '/admin-dashboard';
   static const String adminUsers = '/admin-users';
   static const String adminReports = '/admin-reports';
   static const String adminSettings = '/admin-settings';
 
   //! Business Routes
+  static const String businessHome = '/business-home';
   static const String businessDashboard = '/business-dashboard';
   static const String businessBookings = '/business-bookings';
   static const String businessProfile = '/business-profile';
